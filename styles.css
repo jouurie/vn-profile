@@ -649,7 +649,7 @@ body{width:min(100%,770px);margin-inline:auto;container: vince / inline-size;--b
 .guide-fragment>p{margin-left:10px}.guide-fragment>.prose-list{margin-left:10px}
 
 .guide-fragment .prose-label{color:var(--ink)}
-.guide-statement{font-weight:800;padding-bottom:10px;border-bottom:1px dashed var(--brown)}
+.guide-statement{font-weight:400;padding-bottom:0;border-bottom:0}
 .guide-setting-path{font-size:var(--note);line-height:1.75;color:var(--brown);padding:6px 0 12px;border-bottom:1px dashed var(--brown)}
 .guide-table{font-size:var(--body);table-layout:fixed;font-variant-numeric:tabular-nums}
 .guide-table th{width:40%;border-right:1px solid var(--brown);font-weight:800}
