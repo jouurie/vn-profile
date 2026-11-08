@@ -211,12 +211,12 @@
   }
   function chooseGuidePlatform(platform){
     const body=document.getElementById('guide-platform-body');
-    const reader=document.getElementById('guide-content-scroll');const y=reader.scrollTop;
+    const y=scroll.scrollTop;
     state.guidePlatforms[state.guide]=platform;
     body.innerHTML=platformBody(guides[state.guide],platform);
     body.setAttribute('aria-labelledby',`guide-platform-${platform}`);
     document.querySelectorAll('[data-guide-platform]').forEach(button=>button.setAttribute('aria-selected',String(button.dataset.guidePlatform===platform)));
-    reader.scrollTop=y;
+    scroll.scrollTop=y;
   }
   let noticeTimer;
   function notify(message){const node=document.getElementById('notice');node.textContent=message;node.classList.add('visible');clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>node.classList.remove('visible'),2600);}
