@@ -989,3 +989,6 @@ body{width:min(100%,770px);margin-inline:auto;container: vince / inline-size;--b
  .npc-directory button{flex-basis:124px;width:124px}
 }
 @media(prefers-reduced-motion:reduce){:is(button,a,summary),:is(button,a,summary)::before,:is(button,a,summary)::after{transition:none!important}}
+
+/* Inline guide destinations keep the prose role and existing brick accent. */
+.guide-prose a.guide-reference{color:var(--brick);font:inherit;line-height:inherit;text-decoration:underline;text-underline-offset:3px}

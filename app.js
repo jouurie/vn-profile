@@ -135,7 +135,7 @@
   function guideParts(parts){return parts.map(part=>{
     if(part.heading&&!part.body){const pair=part.heading.split(' → ');return pair.length>1?`<section class="guide-fragment"><h3 class="prose-subheading">${e(pair.shift())}</h3><p>${e(pair.join(' → '))}</p></section>`:`<p class="guide-statement">${e(part.heading)}</p>`;}
     return `<section class="guide-fragment">${part.heading?`<h3 class="prose-subheading">${phraseLabel(part.heading.replace(/^🔗 /,'').replace(/:$/,''))}</h3>`:''}${rich(part.body,{emphasis:false})}</section>`;
-  }).join('');}
+  }).join('').replace(/하단\s*\[\s*⭐?\s*출력 가이던스\s*\]/g,'<a class="guide-reference" href="#guide/7/elyn">출력 가이던스</a>');}
   function settingTable(raw){const [heading,...rows]=raw.trim().split('\n');return `<section class="guide-fragment"><h3 class="prose-subheading">${e(heading)}</h3><table class="guide-table"><tbody>${rows.filter(Boolean).map(line=>{const match=line.replace(/^· /,'').match(/^([^:]+):\s*(.*)$/);return match?`<tr><th scope="row">${e(match[1])}</th><td>${e(match[2])}</td></tr>`:`<tr><td colspan="2">${e(line)}</td></tr>`;}).join('')}</tbody></table></section>`;}
   function modelCards(raw){const [, ...rows]=raw.split('\n');const cards=[];rows.filter(Boolean).forEach(line=>{if(line.startsWith('↳ ')){cards.at(-1)?.notes.push(line.slice(2));return;}const split=line.indexOf(':');cards.push({name:line.slice(0,split).replace(/^· /,''),value:line.slice(split+1).trim(),notes:[]});});return `<div class="guide-model-grid">${cards.map(card=>`<section class="guide-model"><h3>${e(card.name)}</h3><div class="prose">${rich(card.value,{emphasis:false})}${card.notes.map(note=>`<p class="subnote">${e(note)}</p>`).join('')}</div></section>`).join('')}</div>`;}
   function missingGuide(){return `<div class="guide-empty"><p>빈스의 해당 안내는 아직 등록되지 않았습니다.</p></div>`;}
@@ -190,6 +190,7 @@
     }
     preserveWorldViewport=false;
     if(state.route==='guide' && sub!==undefined)state.guide=Math.max(0,Math.min(guides.length-1,Number(sub)||0));
+    if(state.route==='guide' && ['elyn','nody'].includes(detail))state.guidePlatforms[state.guide]=detail;
     main.innerHTML=renderers[state.route]();
     main.dataset.route=state.route;
     scroll.dataset.route=state.route;
@@ -200,7 +201,13 @@
     if(state.route==='profile')updateProfileTabs();
     if(state.route==='world' && state.world==='apartment')updateApartment();
     if(state.route==='world' && state.world==='people' && /^\d+$/.test(detail??''))requestAnimationFrame(()=>document.getElementById(`npc-${detail}`)?.scrollIntoView({block:'start'}));
-    if(focus)document.getElementById('page-title')?.focus({preventScroll:true});
+    if(state.route==='guide' && ['elyn','nody'].includes(detail))requestAnimationFrame(()=>{
+      const heading=document.getElementById('guide-title');
+      scroll.scrollTop+=heading.getBoundingClientRect().top-scroll.getBoundingClientRect().top-12;
+      document.getElementById('guide-content-scroll').scrollTop=0;
+      heading.focus({preventScroll:true});
+    });
+    else if(focus)document.getElementById('page-title')?.focus({preventScroll:true});
   }
   function updateProfileTabs(){document.querySelectorAll('[data-profile]').forEach(button=>{const active=button.dataset.profile===state.profile;button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;});document.getElementById('profile-panel')?.setAttribute('aria-labelledby',`profile-tab-${state.profile}`);}
   function chooseProfile(value){const y=scroll.scrollTop;state.profile=value;document.getElementById('profile-panel').innerHTML=profileBody();updateProfileTabs();scroll.scrollTop=y;}
