@@ -992,3 +992,11 @@ body{width:min(100%,770px);margin-inline:auto;container: vince / inline-size;--b
 
 /* Inline guide destinations keep the prose role and existing brick accent. */
 .guide-prose a.guide-reference{white-space:nowrap;color:var(--brick);font:inherit;line-height:inherit;text-decoration:underline;text-underline-offset:3px}
+
+/* Guide heading roles, 2026-11-09. */
+.guide-model h3{font-size:13px}
+.guide-model h3::after{height:1px}
+
+.guide-setting-group>.guide-setting-path{font-size:15px;margin:0 0 18px}.guide-setting-group+.guide-setting-group{margin-top:28px}.guide-setting-group .prose-subheading{font-size:14px}
+
+.guide-setting-group>.guide-fragment+*,.guide-setting-group>*+.guide-fragment{margin-top:var(--subsection-gap)}
