@@ -4,9 +4,10 @@ This file records the user's current accepted constraints for this site. Existin
 
 ## Canvas and responsive layout
 
-- The entire visible site is at most **770 CSS pixels wide**, including header, footer, navigation, guide shell and illustrated content. On narrower screens it fits the available width. Center the site at wider viewport sizes.
-- Compose for the actual site/container width. Do not keep a 1440px desktop composition inside a narrowed wrapper, or use a wide viewport to select unsuitable multi-column arrangements inside the 770px site.
-- Reflow images, text, tabs and controls together. Keep complete copy, readable text sizes, semantic order, full touch targets and the existing illustrative identity. Check 320px, 390px, 770px and a viewport wider than the site.
+- **2026-11-11 revision (supersedes the 770px cap):** the entire visible site is at most **1100 CSS pixels wide**, including header, footer, navigation, guide shell and illustrated content. The platform shows the page in a frame limited to 1100px, so that width is the wide baseline. On narrower screens it fits the available width. Center the site at wider viewport sizes. The rules live in `refresh.css`, loaded after `styles.css`.
+- Compose for the actual site/container width (`@container vince`). Two-column arrangements and the larger type scale apply only from a 960px container; below that the single-column 770px-era composition stays.
+- Reflow images, text, tabs and controls together. Keep complete copy, readable text sizes, semantic order, full touch targets and the existing illustrative identity. Check 320px, 390px, 770px, 1100px and a viewport wider than the site.
+- Type scale (narrow → wide): body 14 → 16px, note 12 → 13px, section heading (h2) 19 → 23px, sub heading (h3) 15.5 → 17.5px, article/person title 22 → 28px. Section headings are ink with the brick slash and rule; sub headings are brick with a short mustard underline.
 
 ## Text is part of the design
 

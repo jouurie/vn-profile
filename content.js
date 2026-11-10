@@ -291,3 +291,14 @@ window.VINCE_CONTENT.npcs.forEach(npc => {
   if(npc.english==='Wyatt Rhodes')npc.image={src:'assets/npc-wyatt.png',faceX:50,faceY:27,scale:2};
   if(npc.english==='Wade Rhodes')npc.image={src:'assets/npc-wade.png',faceX:50,faceY:28,scale:2};
 });
+
+// 빈 초상 칸에 적어 두는 그림 설명. 그림이 들어오면(src 가 채워지면) 화면에서 사라진다.
+// 생성용 프롬프트 전문은 IMAGE-SLOTS.md 에 있다.
+const VINCE_SLOT_NOTES = {
+  'Delmar Hayes':'뒤로 넘긴 짙은 금발, 녹색 눈. 말끔한 셔츠 차림의 마른 남자가 중고품 상자에 기대선 반신상.',
+  'Otis Brown':'소매를 걷은 작업복, 귀 뒤에 꽂은 연필. 공구함을 든 아파트 관리인의 반신상.',
+  'Evelyn Fowler':'단정한 은빛 머리. 체인을 건 문틈으로 복도를 내다보는 노부인의 반신상.',
+  'Rafael Delgado':'다림질한 황갈색 코트, 손에 든 면담 카드. 문 앞에 선 보호관찰관의 반신상.',
+  'Sammy Harris':'기름 묻은 앞치마. 델리 계산대 뒤에서 커피를 내미는 가게 주인의 반신상.'
+};
+window.VINCE_CONTENT.npcs.forEach(npc => { if(!npc.image.src) npc.image.note = VINCE_SLOT_NOTES[npc.english] || ''; });

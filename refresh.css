@@ -1,0 +1,139 @@
+/* 2026-11 refresh.
+   1) 판형: 770px 고정 → 최대 1100px. 좁은 화면은 그대로 폭에 맞춘다.
+   2) 글자 계층: 큰 제목(h1) › 구역 제목(h2) › 소제목(h3) › 본문 › 주석 다섯 단을 크기·굵기·색·장식으로 가른다.
+   3) 새 그림 자리(.image-slot): 그림이 들어오기 전까지 설명 글이 자리를 지킨다.
+   styles.css 뒤에 불러오며, 같은 선택자를 뒤에서 덮는다. */
+
+/* ---------- 1. 판형과 글자 단 ---------- */
+body{
+  width:min(100%,1100px);
+  --body:14px;--note:12px;--control:13.5px;
+  --section-title:19px;   /* h2 */
+  --sub-title:15.5px;     /* h3 */
+  --article-title:22px;   /* 가이드 글 제목, 인물 이름 */
+  --pad:26px;
+  --reading-leading:1.75;--section-gap:34px;--subsection-gap:22px;--heading-gap:10px;
+}
+.content-width{width:min(980px,calc(100% - var(--pad)*2))}
+
+@container vince (min-width:960px){
+  .site-header,.page-scroll{
+    --body:16px;--note:13px;--control:15px;
+    --section-title:23px;--sub-title:17.5px;--article-title:28px;
+    --pad:56px;
+    --section-gap:44px;--subsection-gap:26px;--heading-gap:12px;
+    font-size:var(--body);
+  }
+}
+@container vince (max-width:370px){
+  .site-header,.page-scroll{--section-title:18px;--sub-title:15px;--article-title:20px}
+}
+
+/* ---------- 2. 글자 계층 ---------- */
+/* h2 구역 제목: 벽돌색 빗금 + 굵은 명조 + 끝까지 가는 괘선 */
+.section-heading{font-size:var(--section-title);font-weight:800;line-height:1.35;letter-spacing:-.02em;gap:14px;margin-bottom:var(--heading-gap)}
+.section-heading::before{flex-basis:.42em;height:1em}
+.section-heading>span{padding:0 0 .16em}
+.section-heading::after{height:2px;background:linear-gradient(90deg,var(--ink) 0 28px,var(--brown) 28px)}
+.ribbon-heading span{font-size:var(--section-title);font-weight:800;letter-spacing:-.02em}
+
+/* h3 소제목: 한 단 작고, 겨자색 밑줄 한 토막 */
+.prose-subheading,.world-reading .prose-subheading,.guide-fragment>.prose-subheading,.guide-model h3,.guide-setting-group .prose-subheading{
+  font-size:var(--sub-title);font-weight:800;line-height:1.45;color:var(--brick);padding:0 0 .32em;
+}
+.prose-subheading::after,.guide-model h3::after{width:min(30px,100%);height:3px;background:var(--mustard);clip-path:none}
+.scene-tile h3,.opening-title h2{font-size:calc(var(--sub-title) + 2px);font-weight:800;line-height:1.4}
+.opening-number{font-size:var(--sub-title)}
+
+/* 가이드 글 제목 · 인물 카드 이름: 구역 제목보다 한 단 위 */
+.guide-title,.guide-article-head .guide-title{font-size:var(--article-title);font-weight:800;letter-spacing:-.03em;line-height:1.3}
+.npc-card h2{font-size:var(--article-title);line-height:1.3;letter-spacing:-.03em}
+.people-header .page-heading h2,.apartment-heading .page-heading h2{font-size:var(--article-title);font-weight:800;letter-spacing:-.03em;line-height:1.3}
+
+/* 본문 · 주석 */
+.prose,.section-lead,.guide-prose{font-size:var(--body);line-height:var(--reading-leading)}
+.section-lead{margin-top:2px;color:#2b2a26}
+.prose .subnote,.guide-prose .subnote,.subnote,.apartment-hint{font-size:var(--note);line-height:1.6}
+.eyebrow{font-size:var(--note)}
+.fact-strip{font-size:var(--note)}
+.profile-quote{font-size:var(--body)}
+.context-tag{font-size:var(--note)}
+.intro-quote p{font-size:calc(var(--section-title) + 1px);line-height:1.5}
+
+/* 가이드 옆 메뉴: 묶음 이름(겨자색 작은 대문자 결) › 항목 */
+.guide-menu-group h2{font-size:var(--note);letter-spacing:.14em;font-weight:800}
+.guide-menu-group button{font-size:var(--control)}
+
+/* 큰 제목(h1)은 화면마다 그림 위에 올라가므로 크기만 판형에 맞춘다 */
+@container vince (min-width:960px){
+  .hero-copy h1{font-size:60px;line-height:1.18}
+  .hero-copy h1 small{font-size:.62em}
+  .hero-copy>p{font-size:17px;max-width:30em}
+  .world-title-row h1{font-size:68px}
+  .opening-banner h1,.playlist-heading>h1{font-size:60px;line-height:1.2}
+  .profile-identity>h1{font-size:40px}
+  .display-name{font-size:96px}
+  .guide-sidebar h1{font-size:30px}
+  .people-header .page-heading h1{font-size:46px}
+}
+
+/* ---------- 3. 고침: 동네 지도 라벨 ----------
+   공통 버튼 규칙(:is(...) 의 position:relative)이 더 세서 라벨이 그림 밖으로 흘러내리던 것을 바로잡는다. */
+.neighborhood-scene>.map-label{position:absolute}
+
+/* ---------- 4. 넓은 판(960px 이상)에서 쓰는 2단 배치 ---------- */
+@container vince (min-width:960px){
+  /* 홈 */
+  .home-hero{height:520px}
+  .hero-copy{margin-left:calc(var(--pad) + 22px);width:54%}
+  .home-life{margin-top:8px}
+  .home-tiles{gap:0 36px}
+  .intro-columns{column-gap:64px}
+
+  /* 프로필: 머리 2단, 아래 읽을거리도 2단 */
+  .profile-top{grid-template-columns:minmax(0,430px) minmax(0,1fr);gap:56px}
+  .profile-detail-grid{grid-template-columns:1fr 1fr;gap:20px 28px;align-items:start}
+  .profile-detail-grid .reading-section{padding:14px 20px 16px}
+  .profile-editorial{gap:28px}
+
+  /* 세계관: 긴 글은 2단으로 나눠 한 줄 길이를 읽기 좋게 */
+  .world-reading{max-width:none;display:grid;grid-template-columns:1fr 1fr;gap:8px 36px;align-items:start}
+  .world-reading>.reading-section{margin:0;padding:18px 20px 8px 22px}
+  .world-reading>.reading-section:only-child{grid-column:1/-1}
+  .neighborhood-layout{grid-template-columns:minmax(0,2.2fr) minmax(0,1fr);gap:36px}
+  .truck-layout{gap:44px}
+
+  /* 아파트: 왼쪽 무대, 오른쪽 읽을거리 */
+  .apartment-page{display:grid;grid-template-columns:minmax(0,540px) minmax(0,1fr);column-gap:52px;align-items:start}
+  .apartment-page>*{grid-column:1/-1}
+  .apartment-page>.apartment-single{grid-column:1;grid-row:3/span 2;width:100%;margin:28px 0 0}
+  .apartment-page>.apartment-hint{grid-column:2;grid-row:3;margin-top:34px;text-align:left}
+  .apartment-page>.reading-section{grid-column:2;grid-row:4;max-width:none;margin:22px 0 0}
+  .apartment-single .section-heading{max-width:none}
+
+  /* 주변 인물 */
+  .npc-browser{gap:32px}
+  .npc-directory button{min-height:68px}
+
+  /* 도입부 · 플레이리스트 · 가이드 */
+  .opening-card{gap:36px}
+  .opening-banner{min-height:260px}
+  .track-list a{min-height:72px;font-size:var(--body)}
+  .guide-prose,.guide-content-scroll .prose{max-width:46em}
+}
+
+/* ---------- 5. 새 그림 자리 ---------- */
+.npc-image-empty{position:relative;align-content:center;gap:14px;padding:18px;text-align:center;
+  background:repeating-linear-gradient(135deg,transparent 0 11px,#67573b12 11px 12px),var(--paper)}
+.npc-detail-portrait .npc-image-empty>span{font-size:44px}
+.slot-note{display:block;max-width:22em;font:400 var(--note)/1.6 VinceBody,Georgia,serif;color:var(--brown);letter-spacing:0}
+.slot-note>b{display:block;margin-bottom:6px;font:400 10px/1.4 Georgia,serif;letter-spacing:.22em;color:var(--brick)}
+
+/* ---------- 6. 가이드 플랫폼 스위치(ELYN / NODY) ----------
+   12px 회색 글자라 고를 수 있는 단추로 읽히지 않았다. 테두리 있는 두 칸 스위치로 바꾼다. */
+.guide-article-head .guide-platforms{width:auto;gap:0;border:1px solid var(--ink)}
+.guide-article-head .guide-platforms button{flex:0 0 auto;min-width:76px;min-height:44px;padding:8px 16px;font-size:var(--control);font-weight:800;letter-spacing:.1em;color:var(--ink)}
+.guide-article-head .guide-platforms button+button{border-left:1px solid var(--ink)}
+.guide-article-head .guide-platforms button::after{content:none}
+.guide-article-head .guide-platforms button[aria-selected="true"]{background:var(--ink);color:var(--cream)}
+@media(hover:hover){.guide-article-head .guide-platforms button[aria-selected="false"]:hover{background:var(--mustard)}}
