@@ -8,6 +8,18 @@
   <title>빈스 크라우더 · Vince Crowder</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preload" href="fonts/NanumMyeongjo-ExtraBold.ttf" as="font" type="font/ttf" crossorigin>
+  <script>
+    const initialView = location.hash.slice(1).split("/")[0];
+    if (!initialView || initialView === "home" || initialView === "openings") {
+      const hero = document.createElement("link");
+      hero.rel = "preload";
+      hero.as = "image";
+      hero.href = "assets/hero-night.webp";
+      hero.type = "image/webp";
+      hero.fetchPriority = "high";
+      document.head.append(hero);
+    }
+  </script>
   <link rel="stylesheet" href="styles.css?v=20261109-guide-roles">
   <script defer src="content.js"></script>
   <script defer src="guide-data.js?v=85e86ff0-reasoning-control"></script>
